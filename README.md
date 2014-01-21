@@ -149,12 +149,6 @@ Contributing
  4. Push to the branch (git push origin my-new-feature)
  5. Create new Pull Request
 
-
-License
-------------
-
-It is free and may be redistributed under the terms specified in the LICENSE file.
-
   [1]: https://github.com/amro/gibbon
   [2]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#batch_subscribe-instance_method
   [3]: https://github.com/mailchimp/mcapi2-ruby-examples
