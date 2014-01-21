@@ -1,8 +1,25 @@
-I know there is a beautiful gem [Gibbon][1] available for Mailchimp, but sometime there come some conflicts and issues when you try to install Gibbon. For example i got many conflicts of Gibbon dependencies with other gems. I know there is [sample application][11] available for mailchimp-api but i believe instead of going through sample application it would be much better if there would be some documentation for mailchimp-api gem.
+Overview
+=============================================
+A Ruby API client for [v2 of the MailChimp API](http://apidocs.mailchimp.com/api/2.0/). Please note that we generate this client/wrapper, so while we're happy to look at any pull requests, ultimately we can't technically accept them. We will, however comment on any additions or changes made due to them before closing them.
 
-So i try to integrate **Mailchimp official gem**, ([mailchimp-api][2]) and succeeded. Now when I try to find some documentation of it i got nothing.  
 
-So i thought it would be a good idea to have some documentation, that would be helpful for others.
+###Usage
+This can be installed via our [gem](https://rubygems.org/gems/mailchimp-api) using:
+```
+$ gem install mailchimp-api
+```
+Then you'll need to `require 'mailchimp'` in your code.
+
+Alternatively, if you're using a recent version of Bundler, you can add the following to your Gemfile:
+```
+gem 'mailchimp-api', require: 'mailchimp'
+```
+Then `bundle install` and you're all set.
+
+
+---
+
+A basic example app to help kickstart you which - will also automatically install this package - is over in a public [github](https://github.com/mailchimp/mcapi2-ruby-examples) repo
 
 Make the following constants, in your enviornment file or where ever you are mentioning the constants.
 
