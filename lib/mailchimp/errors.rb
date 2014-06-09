@@ -175,5 +175,17 @@ module Mailchimp
     end
     class MCSearchExceptionError < Error
     end
+    class GoalSaveFailedError < Error
+    end
+    class ConversationDoesNotExistError < Error
+    end
+    class ConversationReplySaveFailedError < Error
+    end
+    class FileNotFoundExceptionError < Error
+    end
+    class FolderNotFoundExceptionError < Error
+    end
+    class FolderExistsExceptionError < Error
+    end
 end
 

@@ -14,6 +14,13 @@ module Mailchimp
             @host = 'https://api.mailchimp.com'
             @path = '/2.0/'
             @dc = 'us1'
+
+            unless apikey
+                apikey = ENV['MAILCHIMP_APIKEY'] || read_configs
+            end
+
+            raise Error, 'You must provide a MailChimp API key' unless apikey
+
             @apikey = apikey
             if @apikey.split('-').length == 2                
                 @host = "https://#{@apikey.split('-')[1]}.api.mailchimp.com"
@@ -21,17 +28,6 @@ module Mailchimp
 
             @session = Excon.new @host
             @debug = debug
-
-            if not apikey
-                if ENV['MAILCHIMP_APIKEY']
-                    apikey = ENV['MAILCHIMP_APIKEY']
-                else
-                    apikey = read_configs
-                end
-            end
-
-            raise Error, 'You must provide a MailChimp API key' if not apikey
-            @apikey = apikey
         end
 
         def call(url, params={})
@@ -143,7 +139,13 @@ module Mailchimp
                 'Invalid_PagingLimit' => InvalidPagingLimitError,
                 'Invalid_PagingStart' => InvalidPagingStartError,
                 'Max_Size_Reached' => MaxSizeReachedError,
-                'MC_SearchException' => MCSearchExceptionError
+                'MC_SearchException' => MCSearchExceptionError,
+                'Goal_SaveFailed' => GoalSaveFailedError,
+                'Conversation_DoesNotExist' => ConversationDoesNotExistError,
+                'Conversation_ReplySaveFailed' => ConversationReplySaveFailedError,
+                'File_Not_Found_Exception' => FileNotFoundExceptionError,
+                'Folder_Not_Found_Exception' => FolderNotFoundExceptionError,
+                'Folder_Exists_Exception' => FolderExistsExceptionError
             }
 
             begin
@@ -176,6 +178,9 @@ module Mailchimp
         def mobile()
             Mobile.new self
         end
+        def conversations()
+            Conversations.new self
+        end
         def ecomm()
             Ecomm.new self
         end
@@ -196,6 +201,9 @@ module Mailchimp
         end
         def gallery()
             Gallery.new self
+        end
+        def goal()
+            Goal.new self
         end
     end
 end
