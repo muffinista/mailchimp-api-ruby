@@ -21,7 +21,7 @@ Then `bundle install` and you're all set.
 
 A basic example app to help kickstart you which - will also automatically install this package - is over in a public [github](https://github.com/mailchimp/mcapi2-ruby-examples) repo
 
-Make the following constants, in your enviornment file or where ever you are mentioning the constants.
+Make the following constants, in your environment file or where ever you are mentioning the constants.
 
 
     MAILCHIMP-API-KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxx"
@@ -29,7 +29,7 @@ Make the following constants, in your enviornment file or where ever you are men
 
 You can have a look [here][4] (mailchimp documentation), how you can get the API-KEY.
 
-Now there are multiple things that you can do from mailchimp-api. I am metioning the basic's that used commonly.
+Now there are multiple things that you can do from mailchimp-api. I am mentioning the basic's that used commonly.
 
 Now create the List at mailchimp and get the listId [here][5] you go, you can create the list and get the listId.
 
@@ -53,7 +53,7 @@ Use cases that we will be using are listed below.
  1. **Fetch All Members**
  2. **Get Members Info** 
  3. **Get All Lists**
- 4. **Subscirbe Single User**
+ 4. **Subscribe Single User**
  5. **Subscribe Members in Batch**
  6. **Get All Campaigns**
 
@@ -86,7 +86,7 @@ Get All Lists
       list  = lists['data']
 
 
-Subscirbe Single User
+Subscribe Single User
 ---------------------
 
     mailchimp.lists.subscribe(MAILCHIMP-LIST-ID, 
@@ -102,7 +102,7 @@ Batch Subscribe
 
 Example for this method is not even given in [mailchimp-api sample project][9]. 
 
-Inorder to do bulk upload of subscribers. MailchimpApi provides you a method using which you can simply pass the hash of data and in single call all of your subscribers will be added at mailchimp.
+In order to do bulk upload of subscribers. MailchimpApi provides you a method using which you can simply pass the hash of data and in single call all of your subscribers will be added at mailchimp.
 
 Hash would be created in following format
 
