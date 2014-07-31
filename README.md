@@ -152,8 +152,8 @@ Contributing
   [4]: http://kb.mailchimp.com/article/where-can-i-find-my-api-key
   [5]: http://kb.mailchimp.com/article/how-can-i-find-my-list-id/
   [6]: https://rubygems.org/gems/mailchimp-api
-  [7]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#batch_subscribe-instance_method
-  [8]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#batch_subscribe-instance_method
+  [7]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#member_info-instance_method
+  [8]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#subscribe-instance_method
   [9]: https://github.com/mailchimp/mcapi2-ruby-examples
   [10]: http://apidocs.mailchimp.com/api/2.0/lists/batch-subscribe.php
   [11]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#batch_subscribe-instance_method
