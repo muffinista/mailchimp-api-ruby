@@ -31,7 +31,7 @@ You can have a look [here][4] (mailchimp documentation), how you can get the API
 
 Now there are multiple things that you can do from mailchimp-api. I am mentioning the basic's that used commonly.
 
-Now create the List at mailchimp and get the listId [here][5] you go, you can create the list and get the listId.
+Now create the List at mailchimp and [get the listId][5].
 
 Add it in your constants, where you mentioned the API-KEY.
 
