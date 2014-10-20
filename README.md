@@ -90,7 +90,7 @@ Subscribe Single User
 ---------------------
 
     mailchimp.lists.subscribe(MAILCHIMP-LIST-ID, 
-                       { "email" => awais545@gmail.com,
+                       { "email" => "awais545@gmail.com",
                          "euid" => "123",
                          "leid" => "123123"
                        })
