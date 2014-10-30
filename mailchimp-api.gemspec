@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
     s.name = 'mailchimp-api'
-    s.version = '2.0.5'
+    s.version = '2.0.6'
     s.summary = 'A Ruby API library for the MailChimp email platform.'
     s.description = 'A Ruby API library for the MailChimp email platform'
     s.authors = ['MailChimp Devs']

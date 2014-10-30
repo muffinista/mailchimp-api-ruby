@@ -479,7 +479,7 @@ module Mailchimp
         #     - [Array] data An array of structs representing individual conversations
         #         - [String] unique_id A string identifying this particular conversation
         #         - [Int] message_count The total number of messages in this conversation
-        #         - [String] campaign_id The unique identifier of the campaign this conversation is associated with
+        #         - [String] campaign_id The unique identifier of the campaign this conversation is associated with (will be null if the campaign has been deleted)
         #         - [String] list_id The unique identifier of the list this conversation is associated with
         #         - [Int] unread_messages The number of messages in this conversation which have not yet been read.
         #         - [String] from_label A label representing the sender of this message.
@@ -517,7 +517,7 @@ module Mailchimp
             return @master.call 'conversations/messages', _params
         end
 
-        # Retrieve conversation messages
+        # Reply to a conversation
         # @param [String] conversation_id the unique_id of the conversation to retrieve the messages for, can be obtained by calling converstaions/list().
         # @param [String] message the text of the message you want to send.
         # @return [Hash] Message data from the created message
@@ -556,7 +556,7 @@ module Mailchimp
         #         - [Int] line_num optional the line number of the item on the order. We will generate these if they are not passed
         #         - [Int] product_id the store's internal Id for the product. Lines that do no contain this will be skipped
         #         - [String] sku optional the store's internal SKU for the product. (max 30 bytes)
-        #         - [String] product_name the product name for the product_id associated with this item. We will auto update these as they change (based on product_id)
+        #         - [String] product_name the product name for the product_id associated with this item. We will auto update these as they change (based on product_id) (max 500 bytes)
         #         - [Int] category_id (required) the store's internal Id for the (main) category associated with this product. Our testing has found this to be a "best guess" scenario
         #         - [String] category_name (required) the category name for the category_id this product is in. Our testing has found this to be a "best guess" scenario. Our plugins walk the category heirarchy up and send "Root - SubCat1 - SubCat4", etc.
         #         - [Double] qty optional the quantity of the item ordered - defaults to 1
@@ -1171,12 +1171,13 @@ module Mailchimp
         # Add list members to a static segment. It is suggested that you limit batch size to no more than 10,000 addresses per call. Email addresses must exist on the list in order to be included - this <strong>will not</strong> subscribe them to the list!
         # @param [String] id the list id to connect to. Get by calling lists/list()
         # @param [Int] seg_id the id of the static segment to modify - get from lists/static-segments()
-        # @param [Array] batch an array of structs for   each address using the following keys:
+        # @param [Array] batch an array of email structs, each with with one of the following keys:
         #     - [String] email an email address
-        #     - [String] euid the unique id for an email address (not list related) - the email "id" returned from listMemberInfo, Webhooks, Campaigns, etc.
+        #     - [String] euid the unique id for an email address (not list related) - the email "id" returned from lists/member-info(), Webhooks, Campaigns, etc.
         #     - [String] leid the list email id (previously called web_id) for a list-member-info type call. this doesn't change when the email address changes
         # @return [Hash] an array with the results of the operation
         #     - [Int] success_count the total number of successful updates (will include members already in the segment)
+        #     - [Int] error_count the total number of errors
         #     - [Array] errors structs for each error including:
         #         - [String] email whatever was passed in the email parameter
         #             - [String] email the email address added
@@ -1297,7 +1298,7 @@ module Mailchimp
         #     - [String] email an email address
         #     - [String] euid the unique id for an email address (not list related) - the email "id" returned from listMemberInfo, Webhooks, Campaigns, etc.
         #     - [String] leid the list email id (previously called web_id) for a list-member-info type call. this doesn't change when the email address changes
-        # @param [Array] merge_vars array of new field values to update the member with.  See merge_vars in lists/subscribe() for details.
+        # @param [Hash] merge_vars new field values to update the member with.  See merge_vars in lists/subscribe() for details.
         # @param [String] email_type change the email type preference for the member ("html" or "text").  Leave blank to keep the existing preference (optional)
         # @param [Boolean] replace_interests flag to determine whether we replace the interest groups with the updated groups provided, or we add the provided groups to the member's interest groups (optional, defaults to true)
         # @return [Hash] the ids for this subscriber
@@ -1369,7 +1370,7 @@ module Mailchimp
         #     - [String] from_subject optional - only lists that have a default from email matching this
         #     - [String] created_before optional - only show lists that were created before this date+time  - 24 hour format in <strong>GMT</strong>, eg "2013-12-30 20:30:00"
         #     - [String] created_after optional - only show lists that were created since this date+time  - 24 hour format in <strong>GMT</strong>, eg "2013-12-30 20:30:00"
-        #     - [Boolean] exact optional - flag for whether to filter on exact values when filtering, or search within content for filter values - defaults to true
+        #     - [Boolean] exact optional - flag for whether to filter on exact values when filtering, or search within content for filter values - defaults to false
         # @param [Int] start optional - control paging of lists, start results at this list #, defaults to 1st page of data  (page 0)
         # @param [Int] limit optional - control paging of lists, number of lists to return with each call, defaults to 25 (max=100)
         # @param [String] sort_field optional - "created" (the created date, default) or "web" (the display order in the web app). Invalid values will fall back on "created" - case insensitive.
@@ -1472,7 +1473,7 @@ module Mailchimp
         #     - [Boolean] fb_comments optional If true, the Facebook comments (and thus the <a href="http://kb.mailchimp.com/article/i-dont-want-an-archiave-of-my-campaign-can-i-turn-it-off/" target="_blank">archive bar</a> will be displayed. If false, Facebook comments will not be enabled (does not imply no archive bar, see previous link). Defaults to "true".
         #     - [Boolean] timewarp optional If set, this campaign must be scheduled 24 hours in advance of sending - default to false. Only valid for "regular" campaigns and "absplit" campaigns that split on schedule_time.
         #     - [Boolean] ecomm360 optional If set, our <a href="http://www.mailchimp.com/blog/ecommerce-tracking-plugin/" target="_blank">Ecommerce360 tracking</a> will be enabled for links in the campaign
-        #     - [Array] crm_tracking optional If set, an array of structs to enable CRM tracking for:
+        #     - [Hash] crm_tracking optional If set, a struct to enable CRM tracking for:
         #         - [Hash] salesforce optional Enable SalesForce push back
         #             - [Bool] campaign optional - if true, create a Campaign object and update it with aggregate stats
         #             - [Bool] notes optional - if true, attempt to update Contact notes based on email address
@@ -1618,6 +1619,11 @@ module Mailchimp
         #         - [Int] comments_total total number of comments left on this campaign
         #         - [Int] comments_unread total number of unread comments for this campaign based on the login the apikey belongs to
         #         - [Hash] summary if available, the basic aggregate stats returned by reports/summary
+        #         - [Hash] social_card If a social card has been attached to this campaign:
+        #             - [String] title The title of the campaign used with the card
+        #             - [String] description The description used with the card
+        #             - [String] image_url The URL of the image used with the card
+        #             - [String] enabled Whether or not the social card is enabled for this campaign.
         #     - [Array] errors structs of any errors found while loading lists - usually just from providing invalid list ids
         #         - [String] filter the filter that caused the failure
         #         - [String] value the filter value that caused the failure
@@ -2240,7 +2246,7 @@ module Mailchimp
         #         - [Int] unique_opens the unique opens for this timezone
         #         - [Int] clicks the total clicks for this timezone
         #         - [String] last_click the date/time of the last click for this timezone
-        #         - [Int] unique_opens the unique clicks for this timezone
+        #         - [Int] unique_clicks the unique clicks for this timezone
         #         - [Int] bounces the total bounces for this timezone
         #         - [Int] total the total number of members sent to in this timezone
         #         - [Int] sent the total number of members delivered to in this timezone

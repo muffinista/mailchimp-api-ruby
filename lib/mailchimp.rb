@@ -22,8 +22,10 @@ module Mailchimp
             raise Error, 'You must provide a MailChimp API key' unless apikey
 
             @apikey = apikey
-            if @apikey.split('-').length == 2                
+            if @apikey.split('-').length == 2
                 @host = "https://#{@apikey.split('-')[1]}.api.mailchimp.com"
+            else
+                raise InvalidApiKeyError, 'Your MailChimp API key must contain a suffix subdomain (e.g. "-us8").'
             end
 
             @session = Excon.new @host
