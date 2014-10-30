@@ -21,7 +21,7 @@ Then `bundle install` and you're all set.
 
 A basic example app to help kickstart you which - will also automatically install this package - is over in a public [github](https://github.com/mailchimp/mcapi2-ruby-examples) repo
 
-Make the following constants, in your enviornment file or where ever you are mentioning the constants.
+Make the following constants, in your environment file or where ever you are mentioning the constants.
 
 
     MAILCHIMP-API-KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxx"
@@ -29,9 +29,9 @@ Make the following constants, in your enviornment file or where ever you are men
 
 You can have a look [here][4] (mailchimp documentation), how you can get the API-KEY.
 
-Now there are multiple things that you can do from mailchimp-api. I am metioning the basic's that used commonly.
+Now there are multiple things that you can do from mailchimp-api. I am mentioning the basic's that used commonly.
 
-Now create the List at mailchimp and get the listId [here][5] you go, you can create the list and get the listId.
+Now create the List at mailchimp and [get the listId][5].
 
 Add it in your constants, where you mentioned the API-KEY.
 
@@ -53,7 +53,7 @@ Use cases that we will be using are listed below.
  1. **Fetch All Members**
  2. **Get Members Info** 
  3. **Get All Lists**
- 4. **Subscirbe Single User**
+ 4. **Subscribe Single User**
  5. **Subscribe Members in Batch**
  6. **Get All Campaigns**
 
@@ -86,13 +86,13 @@ Get All Lists
       list  = lists['data']
 
 
-Subscirbe Single User
+Subscribe Single User
 ---------------------
 
     mailchimp.lists.subscribe(MAILCHIMP-LIST-ID, 
-                       { "EMAIL" => { "email" => awais545@gmail.com,
-                         "EUID" => "123",
-                         "LEID" => "123123"
+                       { "email" => "awais545@gmail.com",
+                         "euid" => "123",
+                         "leid" => "123123"
                        })
 
 for further information of this method you can have look [here][8]
@@ -102,7 +102,7 @@ Batch Subscribe
 
 Example for this method is not even given in [mailchimp-api sample project][9]. 
 
-Inorder to do bulk upload of subscribers. MailchimpApi provides you a method using which you can simply pass the hash of data and in single call all of your subscribers will be added at mailchimp.
+In order to do bulk upload of subscribers. MailchimpApi provides you a method using which you can simply pass the hash of data and in single call all of your subscribers will be added at mailchimp.
 
 Hash would be created in following format
 
@@ -149,14 +149,11 @@ Contributing
  4. Push to the branch (git push origin my-new-feature)
  5. Create new Pull Request
 
-  [1]: https://github.com/amro/gibbon
-  [2]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#batch_subscribe-instance_method
-  [3]: https://github.com/mailchimp/mcapi2-ruby-examples
-  [4]: http://http://kb.mailchimp.com/article/where-can-i-find-my-api-key
+  [4]: http://kb.mailchimp.com/article/where-can-i-find-my-api-key
   [5]: http://kb.mailchimp.com/article/how-can-i-find-my-list-id/
   [6]: https://rubygems.org/gems/mailchimp-api
-  [7]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#batch_subscribe-instance_method
-  [8]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#batch_subscribe-instance_method
+  [7]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#member_info-instance_method
+  [8]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#subscribe-instance_method
   [9]: https://github.com/mailchimp/mcapi2-ruby-examples
   [10]: http://apidocs.mailchimp.com/api/2.0/lists/batch-subscribe.php
   [11]: http://rubydoc.info/gems/mailchimp-api/2.0.4/Mailchimp/Lists#batch_subscribe-instance_method
