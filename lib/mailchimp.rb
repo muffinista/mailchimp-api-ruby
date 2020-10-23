@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'excon'
+require 'net/http'
 require 'json'
 
 require 'mailchimp/errors'
@@ -35,10 +35,19 @@ module Mailchimp
         def call(url, params={})
             params[:apikey] = @apikey
             params = JSON.generate(params)
-            r = @session.post(:path => "#{@path}#{url}.json", :headers => {'Content-Type' => 'application/json'}, :body => params)
+
+            uri = URI("#{@path}#{url}.json")
+            req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+            req.body = params
+
+            res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+              http.request(req)
+            end
+
+            # r = @session.post(:path => "#{@path}#{url}.json", :headers => {'Content-Type' => 'application/json'}, :body => params)
             
-            cast_error(r.body) if r.status != 200
-            return JSON.parse(r.body)
+            cast_error(res.body) if r.status != 200
+            return JSON.parse(res.body)
         end
 
         def read_configs()

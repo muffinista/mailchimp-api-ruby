@@ -8,5 +8,4 @@ Gem::Specification.new do |s|
     s.files = ['lib/mailchimp.rb', 'lib/mailchimp/api.rb', 'lib/mailchimp/errors.rb']
     s.homepage = 'https://bitbucket.org/mailchimp/mailchimp-api-ruby/'
     s.add_dependency 'json', '>= 1.7.7'
-    s.add_dependency 'excon', '>= 0.16.0'
 end
