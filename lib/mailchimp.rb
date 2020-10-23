@@ -28,7 +28,6 @@ module Mailchimp
                 raise InvalidApiKeyError, 'Your MailChimp API key must contain a suffix subdomain (e.g. "-us8").'
             end
 
-            @session = Excon.new @host
             @debug = debug
         end
 
@@ -36,17 +35,18 @@ module Mailchimp
             params[:apikey] = @apikey
             params = JSON.generate(params)
 
-            uri = URI("#{@path}#{url}.json")
+            uri = URI("#{@host}#{@path}#{url}.json")
+
+            puts uri if @debug
+
             req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
             req.body = params
 
             res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
               http.request(req)
             end
-
-            # r = @session.post(:path => "#{@path}#{url}.json", :headers => {'Content-Type' => 'application/json'}, :body => params)
             
-            cast_error(res.body) if r.status != 200
+            cast_error(res.body) if res.code.to_i != 200
             return JSON.parse(res.body)
         end
 
