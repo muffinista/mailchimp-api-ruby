@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'excon'
+require 'net/http'
 require 'json'
 
 require 'mailchimp/errors'
@@ -28,17 +28,26 @@ module Mailchimp
                 raise InvalidApiKeyError, 'Your MailChimp API key must contain a suffix subdomain (e.g. "-us8").'
             end
 
-            @session = Excon.new @host
             @debug = debug
         end
 
         def call(url, params={})
             params[:apikey] = @apikey
             params = JSON.generate(params)
-            r = @session.post(:path => "#{@path}#{url}.json", :headers => {'Content-Type' => 'application/json'}, :body => params)
+
+            uri = URI("#{@host}#{@path}#{url}.json")
+
+            puts uri if @debug
+
+            req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+            req.body = params
+
+            res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+              http.request(req)
+            end
             
-            cast_error(r.body) if r.status != 200
-            return JSON.parse(r.body)
+            cast_error(res.body) if res.code.to_i != 200
+            return JSON.parse(res.body)
         end
 
         def read_configs()
